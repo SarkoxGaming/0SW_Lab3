@@ -57,7 +57,7 @@ public class Player : KinematicBody2D
         
         }
         
-        if (Input.GetActionStrength("ui_click") > 0) {
+        if (Input.GetActionStrength("ui_attack") > 0) {
             animationState.Travel("Attacking");
         }
         if (input_vector.x == 1) {
@@ -72,7 +72,7 @@ public class Player : KinematicBody2D
         } else {
             Velocity = Velocity.LinearInterpolate(Vector2.Zero, 0.2f);
         }
-        if (Input.GetActionStrength("ui_left") == 0 && Input.GetActionStrength("ui_right") == 0 && Input.GetActionStrength("ui_click") == 0) {
+        if (Input.GetActionStrength("ui_left") == 0 && Input.GetActionStrength("ui_right") == 0 && Input.GetActionStrength("ui_attack") == 0) {
             animationState.Travel("Idle");
         }
         if (IsOnFloor()) {
