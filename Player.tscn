@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://assets/img/viking2.png" type="Texture" id=1]
 [ext_resource path="res://Player.cs" type="Script" id=2]
@@ -137,6 +137,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=7]
+resource_name = "JumpingLeft"
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -149,6 +150,46 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ 18, 19, 20 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=33]
+resource_name = "JumpingRight"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 18, 19, 20 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=8]
@@ -252,6 +293,8 @@ min_space = Vector2( -1, -1.1 )
 max_space = Vector2( 1, 1.1 )
 blend_mode = 1
 
+[sub_resource type="AnimationNodeBlendSpace2D" id=34]
+
 [sub_resource type="AnimationNodeAnimation" id=20]
 animation = "RunningLeft"
 
@@ -287,14 +330,24 @@ auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=30]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=35]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=36]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=37]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=38]
+
 [sub_resource type="AnimationNodeStateMachine" id=31]
 states/Attacking/node = SubResource( 14 )
-states/Attacking/position = Vector2( 354, 248.44 )
+states/Attacking/position = Vector2( 462, 298.44 )
 states/Idle/node = SubResource( 19 )
-states/Idle/position = Vector2( 182, 152.44 )
+states/Idle/position = Vector2( 323, 207.44 )
+states/Jump/node = SubResource( 34 )
+states/Jump/position = Vector2( 462, 96.44 )
 states/Running/node = SubResource( 24 )
-states/Running/position = Vector2( 746.718, 179.416 )
-transitions = [ "Idle", "Attacking", SubResource( 25 ), "Attacking", "Idle", SubResource( 26 ), "Attacking", "Running", SubResource( 27 ), "Running", "Attacking", SubResource( 28 ), "Running", "Idle", SubResource( 29 ), "Idle", "Running", SubResource( 30 ) ]
+states/Running/position = Vector2( 618.718, 207.44 )
+transitions = [ "Idle", "Attacking", SubResource( 25 ), "Attacking", "Idle", SubResource( 26 ), "Attacking", "Running", SubResource( 27 ), "Running", "Attacking", SubResource( 28 ), "Running", "Idle", SubResource( 29 ), "Idle", "Running", SubResource( 30 ), "Idle", "Jump", SubResource( 35 ), "Running", "Jump", SubResource( 36 ), "Jump", "Idle", SubResource( 37 ), "Jump", "Running", SubResource( 38 ) ]
 start_node = "Idle"
 graph_offset = Vector2( -182.282, 83.416 )
 
@@ -305,10 +358,9 @@ script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
-flip_h = true
 hframes = 9
 vframes = 6
-frame = 6
+frame = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -326,14 +378,14 @@ anims/AttackingRight = SubResource( 3 )
 anims/Falling = SubResource( 4 )
 anims/IdleLeft = SubResource( 5 )
 anims/IdleRight = SubResource( 6 )
-anims/Jumping = SubResource( 7 )
+anims/JumpingLeft = SubResource( 7 )
+anims/JumpingRight = SubResource( 33 )
 anims/RunningLeft = SubResource( 8 )
 anims/RunningRight = SubResource( 9 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 31 )
 anim_player = NodePath("../AnimationPlayer")
-active = true
 parameters/playback = SubResource( 32 )
 parameters/Attacking/blend_position = Vector2( -0.679333, 0.0862069 )
 parameters/Attacking/0/blend_position = Vector2( 0, 0 )
@@ -341,6 +393,7 @@ parameters/Attacking/3/blend_position = Vector2( 0, 0 )
 parameters/Idle/blend_position = Vector2( -0.76645, -0.0474138 )
 parameters/Idle/2/blend_position = Vector2( 0, 0 )
 parameters/Idle/3/blend_position = Vector2( 0, 0 )
+parameters/Jump/blend_position = Vector2( 0, 0 )
 parameters/Running/blend_position = Vector2( -0.992586, 0.0172414 )
 parameters/Running/2/blend_position = Vector2( 0, 0 )
 parameters/Running/3/blend_position = Vector2( 0, 0 )
