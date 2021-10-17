@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://assets/img/viking2.png" type="Texture" id=1]
 [ext_resource path="res://Player.cs" type="Script" id=2]
@@ -293,7 +293,26 @@ min_space = Vector2( -1, -1.1 )
 max_space = Vector2( 1, 1.1 )
 blend_mode = 1
 
+[sub_resource type="AnimationNodeAnimation" id=39]
+animation = "JumpingLeft"
+
+[sub_resource type="AnimationNodeAnimation" id=40]
+animation = "JumpingRight"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=41]
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=42]
+
 [sub_resource type="AnimationNodeBlendSpace2D" id=34]
+blend_point_0/node = SubResource( 39 )
+blend_point_0/pos = Vector2( -1, 0 )
+blend_point_1/node = SubResource( 40 )
+blend_point_1/pos = Vector2( 1, 0 )
+blend_point_2/node = SubResource( 41 )
+blend_point_2/pos = Vector2( 0, -0.4 )
+blend_point_3/node = SubResource( 42 )
+blend_point_3/pos = Vector2( 0, 0.4 )
+blend_mode = 1
 
 [sub_resource type="AnimationNodeAnimation" id=20]
 animation = "RunningLeft"
@@ -360,7 +379,7 @@ script = ExtResource( 2 )
 texture = ExtResource( 1 )
 hframes = 9
 vframes = 6
-frame = 18
+frame = 20
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -386,6 +405,7 @@ anims/RunningRight = SubResource( 9 )
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 31 )
 anim_player = NodePath("../AnimationPlayer")
+active = true
 parameters/playback = SubResource( 32 )
 parameters/Attacking/blend_position = Vector2( -0.679333, 0.0862069 )
 parameters/Attacking/0/blend_position = Vector2( 0, 0 )
@@ -393,7 +413,9 @@ parameters/Attacking/3/blend_position = Vector2( 0, 0 )
 parameters/Idle/blend_position = Vector2( -0.76645, -0.0474138 )
 parameters/Idle/2/blend_position = Vector2( 0, 0 )
 parameters/Idle/3/blend_position = Vector2( 0, 0 )
-parameters/Jump/blend_position = Vector2( 0, 0 )
+parameters/Jump/blend_position = Vector2( 0.630603, 0.00862074 )
+parameters/Jump/2/blend_position = Vector2( 0, 0 )
+parameters/Jump/3/blend_position = Vector2( 0, 0 )
 parameters/Running/blend_position = Vector2( -0.992586, 0.0172414 )
 parameters/Running/2/blend_position = Vector2( 0, 0 )
 parameters/Running/3/blend_position = Vector2( 0, 0 )
