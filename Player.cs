@@ -11,7 +11,7 @@ public class Player : KinematicBody2D
     const int GRAVITY = 20;
     const int MAX_FALL_SPEED = 200;
     const int MAX_SPEED = 80;
-    const int JUMP_FORCE = 300;
+    const int JUMP_FORCE = 500;
     const int Acceleration = 10;
 
     bool facing_right = true;
@@ -26,7 +26,8 @@ public class Player : KinematicBody2D
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         animationTree = GetNode<AnimationTree>("AnimationTree");
 		animationState = (AnimationNodeStateMachinePlayback) animationTree.Get("parameters/playback");
-
+        animationState.Travel("Idle");
+        
     }
     Vector2 Velocity = new Vector2();
 
@@ -53,30 +54,31 @@ public class Player : KinematicBody2D
             animationTree.Set("parameters/Idle/blend_position", input_vector);
 		    animationTree.Set("parameters/Running/blend_position", input_vector);
             animationTree.Set("parameters/Attacking/blend_position", input_vector);
-            //animationTree.Set("parameters/Jumping/blend_position", input_vector);
+            animationTree.Set("parameters/Jump/blend_position", input_vector);
         
         }
         
         if (Input.GetActionStrength("ui_attack") > 0) {
             animationState.Travel("Attacking");
         }
-        if (input_vector.x == 1) {
+        if (input_vector.x == 1 && IsOnFloor()) {
             Velocity.x += Acceleration;
             facing_right = true;
             animationState.Travel("Running");
             
-        } else if (input_vector.x == -1) {
+        } else if (input_vector.x == -1 && IsOnFloor()) {
             Velocity.x -= Acceleration;
             facing_right = false;
             animationState.Travel("Running");
         } else {
             Velocity = Velocity.LinearInterpolate(Vector2.Zero, 0.2f);
         }
-        if (Input.GetActionStrength("ui_left") == 0 && Input.GetActionStrength("ui_right") == 0 && Input.GetActionStrength("ui_attack") == 0) {
+        if (Input.GetActionStrength("ui_left") == 0 && Input.GetActionStrength("ui_right") == 0 && Input.GetActionStrength("ui_attack") == 0 && IsOnFloor()) {
             animationState.Travel("Idle");
         }
         if (IsOnFloor()) {
             if (Input.IsActionJustPressed("ui_jump")) {
+                animationState.Travel("Jump");
                 Velocity.y = -JUMP_FORCE;
             }
         }
